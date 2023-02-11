@@ -18,6 +18,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $number_of_like
  * @property int $book_rating
  * @property mixed $created_at
+ * @property mixed $is_archived
  */
 class ReviewResource extends JsonResource
 {
@@ -33,6 +34,7 @@ class ReviewResource extends JsonResource
             'dateCreated' => $this->created_at,
             'bookRating' => $this->book_rating,
             'likesCount' => LikedReview::all()->where('review_id', '=', $this->id)->count(),
+            'isArchived' => $this->is_archived,
         ];
     }
 }

@@ -14,6 +14,9 @@ class ReviewController extends Controller
     {
 
         $query = Review::query()->where('is_archived', '=', false)->orderByDesc('created_at');
+        if($is_archived = $request->input('archive')){
+            $query = Review::query()->where('is_archived', $is_archived)->orderByDesc('created_at');
+        }
         if ($sort = $request->input('sort')) {
             $query->orderBy($sort);
         }
