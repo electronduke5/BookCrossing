@@ -31,7 +31,9 @@ Route::apiResources([
     'reviews/{$id}' => ReviewController::class
 ]);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('reviews/archive/{review}', [ReviewController::class, 'archive']);
+Route::post('reviews/unzip/{review}', [ReviewController::class, 'unzip']);
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});

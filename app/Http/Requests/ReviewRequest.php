@@ -19,6 +19,7 @@ class ReviewRequest extends FormRequest
             'book_id' => 'required|integer|exists:books,id',
             'user_id' => 'required|integer|exists:users,id',
             'book_rating' => 'required|integer|min:1|max:10',
+            'is_archived' => 'required|Boolean'
         ];
     }
 }

@@ -15,6 +15,7 @@ class Review extends Model
         'book_id',
         'user_id',
         'book_rating',
+        'is_archived',
     ];
 
     protected $hidden = [

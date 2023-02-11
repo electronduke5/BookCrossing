@@ -13,7 +13,7 @@ class ReviewController extends Controller
     public function index(Request $request)
     {
 
-        $query = Review::query()->orderByDesc('created_at');
+        $query = Review::query()->where('is_archived', '=', false)->orderByDesc('created_at');
         if ($sort = $request->input('sort')) {
             $query->orderBy($sort);
         }
@@ -24,6 +24,18 @@ class ReviewController extends Controller
             $query->where('book_id', '=', $book_id);
         }
         return ReviewResource::collection($query->get());
+    }
+
+    public function archive(Review $review)
+    {
+        $review->update(['is_archived' => true]);
+        return new ReviewResource($review);
+    }
+
+    public function unzip(Review $review)
+    {
+        $review->update(['is_archived' => false]);
+        return new ReviewResource($review);
     }
 
     public function store(ReviewRequest $request)
