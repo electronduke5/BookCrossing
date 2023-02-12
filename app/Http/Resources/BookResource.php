@@ -38,7 +38,7 @@ class BookResource extends JsonResource
             'owner' => new UserBookResource(User::all()->firstWhere('id', '=', $this->owner_id)),
             'reader' => new UserBookResource(User::all()->firstWhere('id', '=', $this->reader_id)),
             'likedUser' => $this->liked_users,
-            'reviewsCount' => Review::all()->where('book_id', $this->id)->count()
+            'reviewsCount' => Review::all()->where('book_id', $this->id)->where('is_archived', false)->count()
         ];
     }
 }

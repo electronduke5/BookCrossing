@@ -31,19 +31,20 @@ class ReviewController extends Controller
 
     public function archive(Review $review)
     {
-        $review->update(['is_archived' => true]);
+        $review->update(['is_archived' => 1]);
         return new ReviewResource($review);
     }
 
     public function unzip(Review $review)
     {
-        $review->update(['is_archived' => false]);
+        $review->update(['is_archived' => 0]);
         return new ReviewResource($review);
     }
 
     public function store(ReviewRequest $request)
     {
         $created_review = Review::create($request->validated());
+        $created_review->is_archived = 0;
         $book_id = $request->book_id;
         //Получение Review, где id книги = id только что созданной книги
         $reviews = Review::all()->where('book_id', $book_id);
