@@ -16,9 +16,9 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'surname' => 'required|alpha|max:50',
-            'name' => 'required|alpha|max:50',
-            'email' => 'required|email:rfc,dns|unique:users',
+            'surname' => 'nullable|alpha|max:50',
+            'name' => 'nullable|alpha|max:50',
+            'email' => 'nullable|email:rfc,dns|unique:users',
             'image' => 'nullable',
         ];
     }
