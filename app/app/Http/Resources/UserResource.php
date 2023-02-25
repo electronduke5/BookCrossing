@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property int $id
@@ -28,7 +29,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             //'password' => $this->password,
-            'image' => $this->image,
+            'image' => $this->image != null ? asset(Storage::url($this->image)) : null,
             'owners_books' => $this->owner_books,
             'readers_books' => $this->readers_books,
             'reviews' => $this->reviews,

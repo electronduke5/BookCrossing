@@ -16,7 +16,7 @@ class BookRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'description' => 'nullable',
-            'image' => 'nullable',
+            'image' => 'sometimes|nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
             'rating' => 'sometimes|nullable',
             'author_id' => 'required|integer|exists:authors,id',
             'genre_id' => 'required|integer|exists:genres,id',

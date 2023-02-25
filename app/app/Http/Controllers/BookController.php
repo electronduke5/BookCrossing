@@ -36,7 +36,9 @@ class BookController extends Controller
 
     public function store(BookRequest $request)
     {
-        $created_book = Book::create($request->validated());
+        $validated_data = $request->validated();
+        $validated_data['image'] = $request->file('image')->store('images/books', 'public');
+        $created_book = Book::create($validated_data);
         return new BookResource($created_book);
     }
 
@@ -47,7 +49,9 @@ class BookController extends Controller
 
     public function update(BookRequest $request, Book $book)
     {
-        $book->update($request->validated());
+        $validated_data = $request->validated();
+        $validated_data['image'] = $request->file('image')->store('images/books', 'public');
+        $book->update($validated_data);
         return new BookResource($book);
     }
 

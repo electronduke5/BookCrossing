@@ -25,6 +25,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = Hash::make($request['password']);
+        $data['image'] = $request->file('image')->store('images/profiles', 'public');
         $created_user = User::create($data);
         return new UserResource($created_user);
     }
@@ -36,7 +37,9 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
-        $user->update(array_filter($request->validated()));
+        $data = array_filter($request->validated());
+        $data['image'] = $request->file('image')->store('images/profiles', 'public');
+        $user->update($data);
         return new UserResource($user);
     }
 

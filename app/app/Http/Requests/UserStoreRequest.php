@@ -21,7 +21,7 @@ class UserStoreRequest extends FormRequest
             'name' => 'required|max:50|alpha',
             'email' => 'required|email:rfc,dns|unique:users',
             'password' => ['required', 'max:25', Password::min(8)->mixedCase()->numbers()],
-            'image' => 'nullable',
+            'image' => 'sometimes|nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ];
     }
 }

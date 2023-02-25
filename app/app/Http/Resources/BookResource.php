@@ -8,6 +8,7 @@ use App\Models\Genre;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property int $id
@@ -30,7 +31,8 @@ class BookResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'rating' => round($this->rating,2),
-            'image' => $this->image,
+            'image' => $this->image != null ? asset(Storage::url($this->image)) : null,
+            //'image' => asset( 'storage/books/' . $this->image),
             //'author' => AuthorResource::collection(Author::all()->firstWhere('id', '=', $this->author_id)),
             'author' => new AuthorResource(Author::all()->firstWhere('id', '=', $this->author_id)),
             //'genre' => GenreResource::collection(Genre::all()->firstWhere('id', '=', $this->genre_id)),

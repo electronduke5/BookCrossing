@@ -19,7 +19,7 @@ class UserUpdateRequest extends FormRequest
             'surname' => 'nullable|alpha|max:50',
             'name' => 'nullable|alpha|max:50',
             'email' => 'nullable|email:rfc,dns|unique:users',
-            'image' => 'nullable',
+            'image' => 'sometimes|nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ];
     }
 }
