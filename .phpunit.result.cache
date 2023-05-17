@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\Controllers\\UserControllerTest::testIndexReturnsDataInValidFormat":4,"Tests\\Controllers\\GenreControllerTest::testIndexReturnsDataInValidFormat":4},"times":{"Tests\\Controllers\\UserControllerTest::testIndexReturnsDataInValidFormat":11.6,"Tests\\Controllers\\GenreControllerTest::testIndexReturnsDataInValidFormat":11.64}}

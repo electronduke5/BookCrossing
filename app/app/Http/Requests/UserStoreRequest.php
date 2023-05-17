@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
 
+/**
+ * @property mixed $image
+ */
 class UserStoreRequest extends FormRequest
 {
     public function authorize()
@@ -22,6 +25,7 @@ class UserStoreRequest extends FormRequest
             'email' => 'required|email:rfc,dns|unique:users',
             'password' => ['required', 'max:25', Password::min(8)->mixedCase()->numbers()],
             'image' => 'sometimes|nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
+            'phone_number' => ['nullable',]
         ];
     }
 }

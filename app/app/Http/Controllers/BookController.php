@@ -5,10 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use App\Models\Transfer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+
+    public function getUserBooksForTransfer(User $user)
+    {
+        $transfers = Transfer::all()->where('user_id', $user->id)->pluck('book_id');
+        //echo $transfers;
+
+        $books = Book::all()->where('reader_id', $user->id)
+        ->whereNotIn('id', $transfers);
+        //echo $books->pluck('id');
+
+        return BookResource::collection($books);
+    }
+
     public function index(Request $request)
     {
         $query = Book::query();
@@ -28,6 +43,15 @@ class BookController extends Controller
         if ($filter = $request->input('filterByAuthor')) {
             $query->where('author_id', $filter);
         }
+
+        if ($filter = $request->input('reader')) {
+            $query->where('reader_id', $filter);
+        }
+
+        if ($filter = $request->input('owner')) {
+            $query->where('owner_id', $filter);
+        }
+
         if ($filter = $request->input('filterByGenre')) {
             $query->where('genre_id', $filter);
         }

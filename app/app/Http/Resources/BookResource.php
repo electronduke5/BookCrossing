@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\ForBook\AuthorBookResource;
+use App\Http\Resources\ForBook\GenreBookResource;
 use App\Http\Resources\ForBook\UserBookResource;
 use App\Models\Author;
 use App\Models\Genre;
@@ -34,9 +36,9 @@ class BookResource extends JsonResource
             'image' => $this->image != null ? asset(Storage::url($this->image)) : null,
             //'image' => asset( 'storage/books/' . $this->image),
             //'author' => AuthorResource::collection(Author::all()->firstWhere('id', '=', $this->author_id)),
-            'author' => new AuthorResource(Author::all()->firstWhere('id', '=', $this->author_id)),
+            'author' => new AuthorBookResource(Author::all()->firstWhere('id', '=', $this->author_id)),
             //'genre' => GenreResource::collection(Genre::all()->firstWhere('id', '=', $this->genre_id)),
-            'genre' => new GenreResource(Genre::all()->firstWhere('id', '=', $this->genre_id)),
+            'genre' => new GenreBookResource(Genre::all()->firstWhere('id', '=', $this->genre_id)),
             'owner' => new UserBookResource(User::all()->firstWhere('id', '=', $this->owner_id)),
             'reader' => new UserBookResource(User::all()->firstWhere('id', '=', $this->reader_id)),
             'likedUser' => $this->liked_users,

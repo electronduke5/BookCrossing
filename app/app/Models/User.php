@@ -3,11 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Resources\StatusResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property mixed $id
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -20,6 +24,8 @@ class User extends Authenticatable
         //'access_token',
         //'refresh_token',
         'image',
+        'phone_number',
+        'status_id',
     ];
 
     protected $hidden = [
@@ -34,7 +40,17 @@ class User extends Authenticatable
         'updated_at' => 'datetime'
     ];
 
-    public function owners_books()
+    public function status()
+    {
+        return $this->belongsTo(UserStatus::class, 'status_id', 'id');
+    }
+
+    public function next_status()
+    {
+        return new StatusResource(UserStatus::all()->firstWhere('id', '=', $this->status_id + 1));
+    }
+
+    public function owner_books()
     {
         return $this->hasMany(Book::class, 'owner_id');
     }
@@ -52,8 +68,18 @@ class User extends Authenticatable
         return $this->belongsToMany(Review::class, 'liked_reviews', 'user_id', 'review_id');
     }
 
-    public function readers_books()
+    public function requests(){
+        return $this->belongsToMany(Transfer::class, 'user_transfers', 'user_id', 'transfer_id');
+    }
+
+//    public function requests(){
+//        return $this->hasMany(UserTransfer::class, 'user_id');
+//    }
+
+    public function reader_books()
     {
         return $this->hasMany(Book::class, 'reader_id');
     }
+
+
 }
