@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-    Schema::table('reviews', function (Blueprint $table) {
-        $table->boolean('is_archived')->default(false)->after('book_rating');
-    });
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('status_id')
+                ->unsigned()->nullable()
+                ->constrained('user_statuses')
+                ->cascadeOnUpdate()->nullOnDelete();
+        });
     }
 
     /**
@@ -25,8 +28,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('reviews', function (Blueprint $table) {
-            $table->dropColumn('is_archived');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('status_id');
         });
     }
 };

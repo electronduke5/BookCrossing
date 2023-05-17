@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-    Schema::table('reviews', function (Blueprint $table) {
-        $table->boolean('is_archived')->default(false)->after('book_rating');
-    });
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('phone_number')->unique()->nullable();
+        });
     }
 
     /**
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('reviews', function (Blueprint $table) {
-            $table->dropColumn('is_archived');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('phone_number');
         });
     }
 };

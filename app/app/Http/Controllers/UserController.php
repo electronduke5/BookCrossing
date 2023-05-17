@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -25,7 +26,9 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = Hash::make($request['password']);
-        $data['image'] = $request->file('image')->store('images/profiles', 'public');
+        if ($request->hasFile('image') && $request->image != '') {
+            $data['image'] = $request->file('image')->store('images/profiles', 'public');
+        }
         $created_user = User::create($data);
         return new UserResource($created_user);
     }
@@ -38,7 +41,13 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         $data = array_filter($request->validated());
-        $data['image'] = $request->file('image')->store('images/profiles', 'public');
+        if ($request->hasFile('image') && $request->image != '') {
+            $image_path = '/public/' . $user->image;
+            if (Storage::fileExists($image_path)) {
+                Storage::delete($image_path);
+            }
+            $data['image'] = $request->file('image')->store('images/profiles', 'public');
+        }
         $user->update($data);
         return new UserResource($user);
     }
@@ -47,5 +56,15 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->noContent();
+    }
+
+    public function removeImage(User $user)
+    {
+        $image_path = '/public/' . $user->image;
+        if (Storage::fileExists($image_path)) {
+            Storage::delete($image_path);
+        }
+        $user->update(['image' => null]);
+        return new UserResource($user);
     }
 }
